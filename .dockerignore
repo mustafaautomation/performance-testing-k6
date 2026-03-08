@@ -1,0 +1,5 @@
+reports
+.git
+.env
+*.md
+node_modules

@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
   schedule:
-    - cron: '0 2 * * *'  # Nightly at 2 AM UTC
+    - cron: '0 2 * * *'
   workflow_dispatch:
     inputs:
       test_type:
@@ -14,6 +14,9 @@ on:
         type: choice
         options: [smoke, load, stress, spike, soak]
 
+permissions:
+  contents: read
+
 jobs:
   performance:
     name: k6 ${{ github.event.inputs.test_type || 'smoke' }}
@@ -22,7 +25,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup k6
         uses: grafana/setup-k6-action@v1
@@ -72,7 +75,7 @@ jobs:
 
       - name: Upload HTML report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: k6-report-${{ github.run_id }}
           path: reports/
