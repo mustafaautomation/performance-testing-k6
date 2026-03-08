@@ -1,0 +1,79 @@
+name: Performance Tests
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '0 2 * * *'  # Nightly at 2 AM UTC
+  workflow_dispatch:
+    inputs:
+      test_type:
+        description: 'Test type to run'
+        required: true
+        default: 'smoke'
+        type: choice
+        options: [smoke, load, stress, spike, soak]
+
+jobs:
+  performance:
+    name: k6 ${{ github.event.inputs.test_type || 'smoke' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup k6
+        uses: grafana/setup-k6-action@v1
+        with:
+          k6-version: '0.51.0'
+
+      - name: Run smoke test
+        if: github.event.inputs.test_type == 'smoke' || github.event.inputs.test_type == ''
+        run: k6 run tests/smoke.test.js
+        env:
+          BASE_URL: ${{ vars.BASE_URL || 'https://reqres.in' }}
+          TEST_USER_EMAIL: ${{ vars.TEST_USER_EMAIL || 'eve.holt@reqres.in' }}
+          TEST_USER_PASSWORD: ${{ secrets.TEST_USER_PASSWORD }}
+
+      - name: Run load test
+        if: github.event.inputs.test_type == 'load'
+        run: k6 run tests/load.test.js
+        env:
+          BASE_URL: ${{ vars.BASE_URL || 'https://reqres.in' }}
+          TEST_USER_EMAIL: ${{ vars.TEST_USER_EMAIL }}
+          TEST_USER_PASSWORD: ${{ secrets.TEST_USER_PASSWORD }}
+
+      - name: Run stress test
+        if: github.event.inputs.test_type == 'stress'
+        run: k6 run tests/stress.test.js
+        env:
+          BASE_URL: ${{ vars.BASE_URL || 'https://reqres.in' }}
+          TEST_USER_EMAIL: ${{ vars.TEST_USER_EMAIL }}
+          TEST_USER_PASSWORD: ${{ secrets.TEST_USER_PASSWORD }}
+
+      - name: Run spike test
+        if: github.event.inputs.test_type == 'spike'
+        run: k6 run tests/spike.test.js
+        env:
+          BASE_URL: ${{ vars.BASE_URL || 'https://reqres.in' }}
+          TEST_USER_EMAIL: ${{ vars.TEST_USER_EMAIL }}
+          TEST_USER_PASSWORD: ${{ secrets.TEST_USER_PASSWORD }}
+
+      - name: Run soak test (CI mode)
+        if: github.event.inputs.test_type == 'soak'
+        run: k6 run tests/soak.test.js
+        env:
+          BASE_URL: ${{ vars.BASE_URL || 'https://reqres.in' }}
+          TEST_USER_EMAIL: ${{ vars.TEST_USER_EMAIL }}
+          TEST_USER_PASSWORD: ${{ secrets.TEST_USER_PASSWORD }}
+          CI: 'true'
+
+      - name: Upload HTML report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: k6-report-${{ github.run_id }}
+          path: reports/
+          retention-days: 30

@@ -1,0 +1,23 @@
+{
+  "name": "performance-testing-k6",
+  "version": "1.0.0",
+  "description": "k6 performance testing framework — smoke, load, stress, spike, and soak test suites",
+  "author": "Quvantic <info@quvantic.com> (https://quvantic.com)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mustafaautomation/performance-testing-k6.git"
+  },
+  "homepage": "https://github.com/mustafaautomation/performance-testing-k6#readme",
+  "bugs": {
+    "url": "https://github.com/mustafaautomation/performance-testing-k6/issues"
+  },
+  "scripts": {
+    "test:smoke": "k6 run tests/smoke.test.js",
+    "test:load": "k6 run tests/load.test.js",
+    "test:stress": "k6 run tests/stress.test.js",
+    "test:spike": "k6 run tests/spike.test.js",
+    "test:soak": "k6 run tests/soak.test.js",
+    "report": "open reports/summary.html"
+  }
+}
