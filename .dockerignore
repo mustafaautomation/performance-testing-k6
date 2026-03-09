@@ -1,5 +1,10 @@
-reports
 .git
-.env
-*.md
+.github
 node_modules
+reports
+*.md
+LICENSE
+.env
+.env.example
+.editorconfig
+.gitignore

@@ -9,10 +9,10 @@ export const THRESHOLDS = {
   // Less than 1% of requests should fail
   http_req_failed: ['rate<0.01'],
 
-  // Custom error rate metric
+  // Custom error rate metric (tracks 5xx and connection errors)
   errors: ['rate<0.05'],
 
-  // Auth endpoint specifically — must be fast
+  // Auth endpoint — tagged in auth.js with { name: 'login' }
   'http_req_duration{name:login}': ['p(95)<300'],
 };
 

@@ -1,6 +1,6 @@
 {
   "name": "performance-testing-k6",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "k6 performance testing framework — smoke, load, stress, spike, and soak test suites",
   "author": "Quvantic <info@quvantic.com> (https://quvantic.com)",
   "license": "MIT",
@@ -17,7 +17,6 @@
     "test:load": "k6 run tests/load.test.js",
     "test:stress": "k6 run tests/stress.test.js",
     "test:spike": "k6 run tests/spike.test.js",
-    "test:soak": "k6 run tests/soak.test.js",
-    "report": "open reports/summary.html"
+    "test:soak": "k6 run tests/soak.test.js"
   }
 }

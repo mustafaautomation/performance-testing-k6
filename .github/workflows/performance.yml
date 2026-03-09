@@ -25,15 +25,18 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
 
       - name: Setup k6
         uses: grafana/setup-k6-action@v1
         with:
-          k6-version: '0.51.0'
+          k6-version: '0.55.0'
+
+      - name: Create reports directory
+        run: mkdir -p reports
 
       - name: Run smoke test
-        if: github.event.inputs.test_type == 'smoke' || github.event.inputs.test_type == ''
+        if: github.event.inputs.test_type == 'smoke' || !github.event.inputs.test_type
         run: k6 run tests/smoke.test.js
         env:
           BASE_URL: ${{ vars.BASE_URL || 'https://reqres.in' }}
@@ -45,7 +48,7 @@ jobs:
         run: k6 run tests/load.test.js
         env:
           BASE_URL: ${{ vars.BASE_URL || 'https://reqres.in' }}
-          TEST_USER_EMAIL: ${{ vars.TEST_USER_EMAIL }}
+          TEST_USER_EMAIL: ${{ vars.TEST_USER_EMAIL || 'eve.holt@reqres.in' }}
           TEST_USER_PASSWORD: ${{ secrets.TEST_USER_PASSWORD }}
 
       - name: Run stress test
@@ -53,7 +56,7 @@ jobs:
         run: k6 run tests/stress.test.js
         env:
           BASE_URL: ${{ vars.BASE_URL || 'https://reqres.in' }}
-          TEST_USER_EMAIL: ${{ vars.TEST_USER_EMAIL }}
+          TEST_USER_EMAIL: ${{ vars.TEST_USER_EMAIL || 'eve.holt@reqres.in' }}
           TEST_USER_PASSWORD: ${{ secrets.TEST_USER_PASSWORD }}
 
       - name: Run spike test
@@ -61,7 +64,7 @@ jobs:
         run: k6 run tests/spike.test.js
         env:
           BASE_URL: ${{ vars.BASE_URL || 'https://reqres.in' }}
-          TEST_USER_EMAIL: ${{ vars.TEST_USER_EMAIL }}
+          TEST_USER_EMAIL: ${{ vars.TEST_USER_EMAIL || 'eve.holt@reqres.in' }}
           TEST_USER_PASSWORD: ${{ secrets.TEST_USER_PASSWORD }}
 
       - name: Run soak test (CI mode)
@@ -69,13 +72,13 @@ jobs:
         run: k6 run tests/soak.test.js
         env:
           BASE_URL: ${{ vars.BASE_URL || 'https://reqres.in' }}
-          TEST_USER_EMAIL: ${{ vars.TEST_USER_EMAIL }}
+          TEST_USER_EMAIL: ${{ vars.TEST_USER_EMAIL || 'eve.holt@reqres.in' }}
           TEST_USER_PASSWORD: ${{ secrets.TEST_USER_PASSWORD }}
           CI: 'true'
 
       - name: Upload HTML report
         if: always()
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@v4
         with:
           name: k6-report-${{ github.run_id }}
           path: reports/
