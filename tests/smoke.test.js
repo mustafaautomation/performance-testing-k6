@@ -6,6 +6,7 @@
  * Run     : npm run test:smoke
  */
 import { check, group, sleep } from 'k6';
+import http from 'k6/http';
 import { htmlReport } from 'https://raw.githubusercontent.com/benc-uk/k6-reporter/2.4.0/dist/bundle.js';
 import { textSummary } from 'https://jslib.k6.io/k6-summary/0.1.0/index.js';
 import { authenticate, authHeaders } from '../src/helpers/auth.js';
@@ -46,7 +47,10 @@ export default function (data) {
     });
 
     group('User not found', () => {
-      const res = get(`${BASE_URL}/api/users/999`, params);
+      const res = get(`${BASE_URL}/api/users/999`, {
+        ...params,
+        responseCallback: http.expectedStatuses(404),
+      });
       check(res, { 'status is 404': (r) => r.status === 404 });
     });
   });

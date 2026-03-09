@@ -15,7 +15,7 @@ Structured k6 performance testing framework covering smoke, load, stress, spike,
 |------|-----|----------|---------|
 | Smoke | 1 | 30s | Verify endpoints work before heavier tests |
 | Load | 50 | ~17 min | Validate performance under expected traffic |
-| Stress | 200 | ~24 min | Find the breaking point |
+| Stress | 200 | ~20 min | Find the breaking point |
 | Spike | 250 | ~9 min | Handle sudden traffic bursts |
 | Soak | 50 | 2 hours | Detect memory leaks over time |
 

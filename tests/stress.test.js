@@ -3,7 +3,7 @@
  * Purpose : Find the breaking point — keep increasing load until failures occur.
  * Pattern : Incrementally ramp VUs beyond expected capacity.
  * Peak VUs: 200
- * Duration: ~24 minutes
+ * Duration: ~20 minutes
  * Run     : npm run test:stress
  */
 import { check, group, sleep } from 'k6';
@@ -22,7 +22,6 @@ export const options = {
     { duration: '4m', target: 200 },
     { duration: '4m', target: 100 },
     { duration: '2m', target: 0 },
-    { duration: '4m', target: 0 },
   ],
   thresholds: {
     http_req_duration: ['p(95)<2000'],

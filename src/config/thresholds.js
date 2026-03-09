@@ -12,7 +12,7 @@ export const THRESHOLDS = {
   // Custom error rate metric (tracks 5xx and connection errors)
   errors: ['rate<0.05'],
 
-  // Auth endpoint — tagged in auth.js with { name: 'login' }
+  // Auth endpoint — single setup() call, acts as a hard latency gate (not a statistical SLO)
   'http_req_duration{name:login}': ['p(95)<300'],
 };
 
