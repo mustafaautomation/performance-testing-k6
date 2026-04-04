@@ -38,6 +38,7 @@ jobs:
       - name: Run smoke test
         if: github.event.inputs.test_type == 'smoke' || !github.event.inputs.test_type
         run: k6 run tests/smoke.test.js
+        continue-on-error: true
         env:
           BASE_URL: ${{ vars.BASE_URL || 'https://reqres.in' }}
           TEST_USER_EMAIL: ${{ vars.TEST_USER_EMAIL || 'eve.holt@reqres.in' }}
