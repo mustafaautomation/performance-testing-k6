@@ -40,17 +40,17 @@ export default function (data) {
   const userId = USER_IDS[Math.floor(Math.random() * USER_IDS.length)];
 
   group('Soak scenario', () => {
-    const listRes = get(`${BASE_URL}/api/users?page=1`, params);
+    const listRes = get(`${BASE_URL}/users?limit=10`, params);
     check(listRes, {
       'list: 200': (r) => r.status === 200,
     });
 
-    const userRes = get(`${BASE_URL}/api/users/${userId}`, params);
+    const userRes = get(`${BASE_URL}/users/${userId}`, params);
     check(userRes, {
       'user: 200': (r) => r.status === 200,
     });
 
-    const createRes = post(`${BASE_URL}/api/users`, NEW_USER, params);
+    const createRes = post(`${BASE_URL}/users/add`, NEW_USER, params);
     check(createRes, { 'create: 201': (r) => r.status === 201 });
   });
 

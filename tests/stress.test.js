@@ -39,13 +39,13 @@ export default function (data) {
   const userId = USER_IDS[Math.floor(Math.random() * USER_IDS.length)];
 
   group('Stress scenario', () => {
-    const listRes = get(`${BASE_URL}/api/users?page=1`, params);
+    const listRes = get(`${BASE_URL}/users?limit=10`, params);
     check(listRes, { 'list: responded': (r) => r.status !== 0 });
 
-    const userRes = get(`${BASE_URL}/api/users/${userId}`, params);
+    const userRes = get(`${BASE_URL}/users/${userId}`, params);
     check(userRes, { 'user: responded': (r) => r.status !== 0 });
 
-    const createRes = post(`${BASE_URL}/api/users`, NEW_USER, params);
+    const createRes = post(`${BASE_URL}/users/add`, NEW_USER, params);
     check(createRes, { 'create: responded': (r) => r.status !== 0 });
   });
 

@@ -2,18 +2,18 @@ import http from 'k6/http';
 import { check } from 'k6';
 import { BASE_URL } from '../config/thresholds.js';
 
-const EMAIL = __ENV.TEST_USER_EMAIL || 'eve.holt@reqres.in';
-const PASSWORD = __ENV.TEST_USER_PASSWORD || 'cityslicka';
+const USERNAME = __ENV.TEST_USERNAME || 'emilys';
+const PASSWORD = __ENV.TEST_PASSWORD || 'emilyspass';
 
 /**
- * Authenticates and returns a bearer token.
+ * Authenticates against DummyJSON and returns an access token.
  * Call this inside setup() to share token across all VUs.
  * Throws on failure so tests don't run with bad auth silently.
  */
 export function authenticate() {
   const res = http.post(
-    `${BASE_URL}/api/login`,
-    JSON.stringify({ email: EMAIL, password: PASSWORD }),
+    `${BASE_URL}/auth/login`,
+    JSON.stringify({ username: USERNAME, password: PASSWORD }),
     {
       headers: { 'Content-Type': 'application/json' },
       tags: { name: 'login' },
@@ -25,7 +25,7 @@ export function authenticate() {
     throw new Error(`Authentication failed: ${res.status} ${res.body}`);
   }
 
-  return res.json('token');
+  return res.json('accessToken');
 }
 
 /**

@@ -17,6 +17,7 @@
     "test:load": "k6 run tests/load.test.js",
     "test:stress": "k6 run tests/stress.test.js",
     "test:spike": "k6 run tests/spike.test.js",
-    "test:soak": "k6 run tests/soak.test.js"
+    "test:soak": "k6 run tests/soak.test.js",
+    "validate": "node scripts/validate.js"
   }
 }

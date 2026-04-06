@@ -33,19 +33,22 @@ export default function (data) {
   const userId = USER_IDS[Math.floor(Math.random() * USER_IDS.length)];
 
   group('Read-heavy flow', () => {
-    get(`${BASE_URL}/api/users?page=1`, params);
+    get(`${BASE_URL}/users?limit=10`, params);
     sleep(0.5);
 
-    const res = get(`${BASE_URL}/api/users/${userId}`, params);
+    const res = get(`${BASE_URL}/users/${userId}`, params);
     check(res, {
       'status 200': (r) => r.status === 200,
-      'has email': (r) => typeof r.json('data.email') === 'string',
+      'has email': (r) => typeof r.json('email') === 'string',
     });
     sleep(0.5);
+
+    get(`${BASE_URL}/products?limit=5`, params);
+    sleep(0.3);
   });
 
   group('Write flow', () => {
-    const res = post(`${BASE_URL}/api/users`, NEW_USER, params);
+    const res = post(`${BASE_URL}/users/add`, NEW_USER, params);
     check(res, { 'user created': (r) => r.status === 201 });
     sleep(1);
   });

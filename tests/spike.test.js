@@ -38,13 +38,13 @@ export default function (data) {
   const userId = USER_IDS[Math.floor(Math.random() * USER_IDS.length)];
 
   group('Spike scenario', () => {
-    const res = get(`${BASE_URL}/api/users/${userId}`, params);
+    const res = get(`${BASE_URL}/users/${userId}`, params);
     check(res, {
       'responded': (r) => r.status !== 0,
       'not timeout': (r) => r.timings.duration < 5000,
     });
 
-    const createRes = post(`${BASE_URL}/api/users`, NEW_USER, params);
+    const createRes = post(`${BASE_URL}/users/add`, NEW_USER, params);
     check(createRes, { 'create: responded': (r) => r.status !== 0 });
   });
 

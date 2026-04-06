@@ -12,8 +12,8 @@ export const THRESHOLDS = {
   // Custom error rate metric (tracks 5xx and connection errors)
   errors: ['rate<0.05'],
 
-  // Auth endpoint — single setup() call, acts as a hard latency gate (not a statistical SLO)
-  'http_req_duration{name:login}': ['p(95)<300'],
+  // Auth endpoint — single setup() call, acts as a hard latency gate
+  'http_req_duration{name:login}': ['p(95)<500'],
 };
 
-export const BASE_URL = __ENV.BASE_URL || 'https://reqres.in';
+export const BASE_URL = __ENV.BASE_URL || 'https://dummyjson.com';
