@@ -38,43 +38,42 @@ jobs:
       - name: Run smoke test
         if: github.event.inputs.test_type == 'smoke' || !github.event.inputs.test_type
         run: k6 run tests/smoke.test.js
-        continue-on-error: true
         env:
-          BASE_URL: ${{ vars.BASE_URL || 'https://reqres.in' }}
-          TEST_USER_EMAIL: ${{ vars.TEST_USER_EMAIL || 'eve.holt@reqres.in' }}
-          TEST_USER_PASSWORD: ${{ secrets.TEST_USER_PASSWORD }}
+          BASE_URL: ${{ vars.BASE_URL || 'https://dummyjson.com' }}
+          TEST_USERNAME: ${{ vars.TEST_USERNAME || 'emilys' }}
+          TEST_PASSWORD: ${{ secrets.TEST_PASSWORD || 'emilyspass' }}
 
       - name: Run load test
         if: github.event.inputs.test_type == 'load'
         run: k6 run tests/load.test.js
         env:
-          BASE_URL: ${{ vars.BASE_URL || 'https://reqres.in' }}
-          TEST_USER_EMAIL: ${{ vars.TEST_USER_EMAIL || 'eve.holt@reqres.in' }}
-          TEST_USER_PASSWORD: ${{ secrets.TEST_USER_PASSWORD }}
+          BASE_URL: ${{ vars.BASE_URL || 'https://dummyjson.com' }}
+          TEST_USERNAME: ${{ vars.TEST_USERNAME || 'emilys' }}
+          TEST_PASSWORD: ${{ secrets.TEST_PASSWORD || 'emilyspass' }}
 
       - name: Run stress test
         if: github.event.inputs.test_type == 'stress'
         run: k6 run tests/stress.test.js
         env:
-          BASE_URL: ${{ vars.BASE_URL || 'https://reqres.in' }}
-          TEST_USER_EMAIL: ${{ vars.TEST_USER_EMAIL || 'eve.holt@reqres.in' }}
-          TEST_USER_PASSWORD: ${{ secrets.TEST_USER_PASSWORD }}
+          BASE_URL: ${{ vars.BASE_URL || 'https://dummyjson.com' }}
+          TEST_USERNAME: ${{ vars.TEST_USERNAME || 'emilys' }}
+          TEST_PASSWORD: ${{ secrets.TEST_PASSWORD || 'emilyspass' }}
 
       - name: Run spike test
         if: github.event.inputs.test_type == 'spike'
         run: k6 run tests/spike.test.js
         env:
-          BASE_URL: ${{ vars.BASE_URL || 'https://reqres.in' }}
-          TEST_USER_EMAIL: ${{ vars.TEST_USER_EMAIL || 'eve.holt@reqres.in' }}
-          TEST_USER_PASSWORD: ${{ secrets.TEST_USER_PASSWORD }}
+          BASE_URL: ${{ vars.BASE_URL || 'https://dummyjson.com' }}
+          TEST_USERNAME: ${{ vars.TEST_USERNAME || 'emilys' }}
+          TEST_PASSWORD: ${{ secrets.TEST_PASSWORD || 'emilyspass' }}
 
       - name: Run soak test (CI mode)
         if: github.event.inputs.test_type == 'soak'
         run: k6 run tests/soak.test.js
         env:
-          BASE_URL: ${{ vars.BASE_URL || 'https://reqres.in' }}
-          TEST_USER_EMAIL: ${{ vars.TEST_USER_EMAIL || 'eve.holt@reqres.in' }}
-          TEST_USER_PASSWORD: ${{ secrets.TEST_USER_PASSWORD }}
+          BASE_URL: ${{ vars.BASE_URL || 'https://dummyjson.com' }}
+          TEST_USERNAME: ${{ vars.TEST_USERNAME || 'emilys' }}
+          TEST_PASSWORD: ${{ secrets.TEST_PASSWORD || 'emilyspass' }}
           CI: 'true'
 
       - name: Upload HTML report

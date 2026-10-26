@@ -5,7 +5,7 @@
 [![k6](https://img.shields.io/badge/k6_0.55-7D64FF?logo=k6&logoColor=white)](https://k6.io)
 [![Docker](https://img.shields.io/badge/Docker-Ready-2496ED.svg?logo=docker&logoColor=white)](Dockerfile)
 
-Structured k6 performance testing framework covering smoke, load, stress, spike, and soak test scenarios. Targets [reqres.in](https://reqres.in) as a reference API with shared SLO thresholds, reusable HTTP helpers, and HTML report generation.
+Structured k6 performance testing framework covering smoke, load, stress, spike, and soak test scenarios. Targets the public [DummyJSON](https://dummyjson.com) API by default with shared SLO thresholds, reusable HTTP helpers, and HTML report generation.
 
 ---
 
