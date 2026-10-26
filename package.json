@@ -19,5 +19,8 @@
     "test:spike": "k6 run tests/spike.test.js",
     "test:soak": "k6 run tests/soak.test.js",
     "validate": "node scripts/validate.js"
+  },
+  "engines": {
+    "node": ">=22"
   }
 }

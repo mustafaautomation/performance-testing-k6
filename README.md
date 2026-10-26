@@ -2,7 +2,8 @@
 
 [![Performance Tests](https://github.com/mustafaautomation/performance-testing-k6/actions/workflows/performance.yml/badge.svg)](https://github.com/mustafaautomation/performance-testing-k6/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![k6](https://img.shields.io/badge/k6_0.55-7D64FF?logo=k6&logoColor=white)](https://k6.io)
+[![k6](https://img.shields.io/badge/k6_2.3-7D64FF?logo=k6&logoColor=white)](https://k6.io)
+[![Node.js](https://img.shields.io/badge/Node.js-22+-339933.svg?logo=node.js&logoColor=white)](https://nodejs.org)
 [![Docker](https://img.shields.io/badge/Docker-Ready-2496ED.svg?logo=docker&logoColor=white)](Dockerfile)
 
 Structured k6 performance testing framework covering smoke, load, stress, spike, and soak test scenarios. Targets the public [DummyJSON](https://dummyjson.com) API by default with shared SLO thresholds, reusable HTTP helpers, and HTML report generation.
@@ -80,6 +81,7 @@ Stress and spike tests use relaxed thresholds (2–3s p95, 10–15% error tolera
 
 | Command | Description |
 |---|---|
+| `npm run validate` | Static check of the k6 scripts (Node 22+, no k6 needed) |
 | `npm run test:smoke` | 1 VU, 30s — sanity check |
 | `npm run test:load` | 50 VUs, steady state |
 | `npm run test:stress` | Ramp to 200 VUs — find limits |
@@ -104,7 +106,8 @@ Mount `-v $(pwd)/reports:/app/reports` to persist HTML reports on the host.
 
 The GitHub Actions workflow supports:
 
-- **Smoke on push** to main branch
+- **Script validation** (`npm run validate` on Node 24) before any k6 run
+- **Smoke on push and on pull requests** to main, using k6 2.3
 - **Nightly smoke tests** at 2 AM UTC
 - **Manual dispatch** — select any test type from the Actions UI
 - **HTML report artifacts** uploaded on every run

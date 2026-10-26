@@ -1,4 +1,4 @@
-FROM grafana/k6:0.55.0
+FROM grafana/k6:2.3.0
 
 WORKDIR /app
 COPY src/ src/

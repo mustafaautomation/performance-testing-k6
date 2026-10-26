@@ -3,6 +3,8 @@ name: Performance Tests
 on:
   push:
     branches: [main]
+  pull_request:
+    branches: [main]
   schedule:
     - cron: '0 2 * * *'
   workflow_dispatch:
@@ -18,19 +20,30 @@ permissions:
   contents: read
 
 jobs:
+  validate:
+    name: Validate k6 scripts
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+      - run: npm run validate
+
   performance:
+    needs: validate
     name: k6 ${{ github.event.inputs.test_type || 'smoke' }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Setup k6
         uses: grafana/setup-k6-action@v1
         with:
-          k6-version: '0.55.0'
+          k6-version: '2.3.0'
 
       - name: Create reports directory
         run: mkdir -p reports
@@ -78,7 +91,7 @@ jobs:
 
       - name: Upload HTML report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: k6-report-${{ github.run_id }}
           path: reports/
